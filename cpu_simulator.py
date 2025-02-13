@@ -12,28 +12,34 @@ class CPU:
 
         if parts[0] == "ADD":
             _, dest, src1, src2 = parts
+            dest, src1, src2 = dest.strip(','), src1.strip(','), src2.strip(',')
             self.registers[dest] = self.registers[src1] + self.registers[src2]
 
         elif parts[0] == "SUB":
             _, dest, src1, src2 = parts
+            dest, src1, src2 = dest.strip(','), src1.strip(','), src2.strip(',')
             self.registers[dest] = self.registers[src1] - self.registers[src2]
 
         elif parts[0] == "LW":  # Load Word
             _, reg, mem_addr = parts
+            reg = reg.strip(',')
             address = int(mem_addr.split('(')[0])
             self.registers[reg] = self.cache.read(address)
 
         elif parts[0] == "SW":  # Store Word
             _, reg, mem_addr = parts
+            reg = reg.strip(',')
             address = int(mem_addr.split('(')[0])
             self.cache.write(address, self.registers[reg])
 
         elif parts[0] == "BEQ":  # Branch if Equal
             _, reg1, reg2, label = parts
+            reg1, reg2 = reg1.strip(','), reg2.strip(',')
             if self.registers[reg1] == self.registers[reg2]:
                 print(f"[CPU] Branching to {label}")
 
         print(f"[CPU] Registers: {self.registers}")
+
 
 class Cache:
     def __init__(self, memory_bus):
